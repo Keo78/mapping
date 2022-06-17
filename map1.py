@@ -29,7 +29,9 @@ for lt, ln, el in zip(lat, lon, elev):
         location=[lt, ln], radius=6, popup=str(el) + "m", fill_color=color_producer(el), color="gray", fill_opacity=0.7))
 
 fg.add_child(folium.GeoJson(
-    data=(open("world.json",  'r', encoding="utf-8-sig").read())))
+    data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x: {'fillColor': 'green' if x['properties']['POP2005'] < 10000000
+                                                                                         else 'orange' if 10000000 <= x['properties']['POP2005'] < 40000000
+                                                                                         else 'red'}))
 
 map.add_child(fg)
 
