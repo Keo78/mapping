@@ -17,23 +17,28 @@ def color_producer(elevation):
         return 'red'
 
 
+# The USA map starts from the coordinates of the earth andd zoom at 5.
 map = folium.Map(location=[38.58, -99.09],
                  zoom_start=5, tiles="Stamen Terrain")
 
-
-fg = folium.FeatureGroup(name="My Map")
+# Group inside the fg variable.
+fgv = folium.FeatureGroup(name="Volcanoes")
 
 for lt, ln, el in zip(lat, lon, elev):
 
-    fg.add_child(folium.CircleMarker(
+    fgv.add_child(folium.CircleMarker(
         location=[lt, ln], radius=6, popup=str(el) + "m", fill_color=color_producer(el), color="gray", fill_opacity=0.7))
 
-fg.add_child(folium.GeoJson(
+fgp = folium.FeatureGroup(name="Population")
+
+fgp.add_child(folium.GeoJson(
     data=open('world.json', 'r', encoding='utf-8-sig').read(), style_function=lambda x: {'fillColor': 'green' if x['properties']['POP2005'] < 10000000
                                                                                          else 'orange' if 10000000 <= x['properties']['POP2005'] < 40000000
                                                                                          else 'red'}))
 
-map.add_child(fg)
 
+map.add_child(fgv)
+map.add_child(fgp)
+map.add_child(folium.LayerControl())
 
 map.save("Map1.html")
