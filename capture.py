@@ -14,7 +14,7 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # time.sleep(3)
     cv2.imshow("capturing", gray)  # Shows the video
-    key = cv2.waitKey(1)
+    key = cv2.waitKey(1)  # Wait for one millisecond
     if key == ord('q'):  # breaks the loop with "q" key
         break
 print(a)
